@@ -3,7 +3,7 @@
 	  <div class="alert bg-navy text-white alert-dismissible fade show rounded-0 mb-0 text-lg-center" role="alert">
         <div class="container">
           <div class="alert-inner">
-            <span class="badge bg-white text-hot-red text-uppercase rounded me-2"><strong><a href="/aswov-events.html#_2022-highlights">Click here</a> to check out some amazing performances!</strong></span>
+            <span class="badge bg-white text-hot-red text-uppercase rounded me-2"><strong><a href="/aswov-events.html#taylor-rys">Click here</a> to check out some amazing performances!</strong></span>
           </div>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -51,7 +51,7 @@
                   </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="aswov-get-involved.html">Get Involved</a></li>
-                <li class="nav-item"><a class="nav-link" href="aswov-events.html#_2022-highlights">Events</a></li>
+                <li class="nav-item"><a class="nav-link" href="aswov-events.html#taylor-rys">Events</a></li>
                 <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#">Heroes</a>
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a class="dropdown-item" href="./aswov-sponsors.html">Sponsors</a></li>
