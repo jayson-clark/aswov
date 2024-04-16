@@ -89,16 +89,40 @@
           <h1 class="display-2 text-navy mb-4 px-md-15 px-lg-0"><strong>Upcoming Events</strong></h1>
         </div>
         <div class="row">
-          <div class="col-xl-1"></div>
-          <div class="col-12 col-lg-4 col-xl-3 card">
-            <img src="./assets/img/events/2024 ASWOV Events.png" alt="" style="width: 100%; ">
-          </div>
-          <div class="col-12 col-lg-8 col-xl-7">
+          <div class="col-12 col-lg-4">
             <figure class="rounded shadow-lg">
-              <img src="./assets/img/events/Save the Date.png" alt="" style="width: 100%; ">
+              <img src="./assets/img/events/2024 ASWOV Events.png" alt="" style="width: 100%; ">
             </figure>
           </div>
-          <div class="col-xl-1"></div>
+          <div class="col-12 col-lg-4">
+            <figure class="rounded shadow-lg">
+              <img src="./assets/img/events/golf_registration.png" id="golf-flyer-img" alt="" style="width: 100%; ">
+            </figure>
+            <script>
+              function switchGolfFlyer() {
+                const img = document.getElementById("golf-flyer-img");
+                const label = document.getElementById("golf-flyer-label");
+                const link = document.getElementById("golf-flyer-link");
+
+                if (label.innerText == 'View Sponsorship Form') {
+                  label.innerText = 'View Registration Form';
+                  img.src = './assets/img/events/golf_sponsors.png';
+                  link.href = './assets/img/events/golf_sponsors.png';
+                } else {
+                  label.innerText = 'View Sponsorship Form';
+                  img.src = './assets/img/events/golf_registration.png';
+                  link.href = './assets/img/events/golf_registration.png';
+                }
+              }
+            </script>
+            <span><a onclick="switchGolfFlyer()" id="golf-flyer-label" style="cursor: pointer; color: blue;">View Sponsorship Form</a> | <a
+                href="./assets/img/events/golf_registration.png" id="golf-flyer-link" style="color: blue;" target="_blank">Print</a></span>
+          </div>
+          <div class="col-12 col-lg-4">
+            <figure class="rounded shadow-lg">
+              <img src="./assets/img/events/lip_sync.png" alt="" style="width: 100%; ">
+            </figure>
+          </div>
         </div>
       </div>
 
