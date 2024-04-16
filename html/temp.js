@@ -51,7 +51,7 @@
                   </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="aswov-get-involved.html">Get Involved</a></li>
-                <li class="nav-item"><a class="nav-link" href="aswov-events.html#taylor-rys">Events</a></li>
+                <li class="nav-item"><a class="nav-link" href="aswov-events.html">Events</a></li>
                 <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#">Heroes</a>
                   <ul class="dropdown-menu">
                     <li class="nav-item"><a class="dropdown-item" href="./aswov-sponsors.html">Sponsors</a></li>
