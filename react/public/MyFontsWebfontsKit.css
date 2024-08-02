@@ -1,0 +1,28 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 4230602, 2021-11-29T13:26:28-0500
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: Praline-Regular by My Creative Land
+ * URL: https://www.myfonts.com/fonts/my-creative-land/praline-mcl/serif/
+ * Copyright: Copyright © 2020 by Elena Genova. All rights reserved.
+ * 
+ * 
+ * 
+ * © 2021 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/408dca");
+  
+@font-face {
+  font-family: "Praline-Regular";
+  src: url('webFonts/PralineRegular/font.woff2') format('woff2'), url('webFonts/PralineRegular/font.woff') format('woff');
+}
+
