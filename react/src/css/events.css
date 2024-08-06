@@ -1,0 +1,23 @@
+.video-selector {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+
+.video-selector p {
+    font-size: 20pt;
+    margin: 0;
+}
+
+.video-selector a {
+    color: #245abf;
+}
+
+#videos>div {
+    display: none;
+}
+
+#videos>div:target {
+    display: block;
+}
