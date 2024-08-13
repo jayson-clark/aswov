@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "firebase emulators:start --import=./emulator-data",
+    "export": "firebase emulators:export ./emulator-data"
+  },
+  "dependencies": {
+    "firebase": "^10.12.5"
+  }
+}
