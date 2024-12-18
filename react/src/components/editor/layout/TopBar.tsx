@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import PageRenderer from "../../content/PageRenderer";
 import ContentViewport from "./ContentViewport";
 
@@ -15,14 +15,42 @@ interface TopBarProps {
 /**
  * TopBar Component
  *
- * Provides a toolbar with actions for setting viewport dimensions and managing the editor.
- *
- * @param {TopBarProps} props - The props containing references to the PageRenderer and ContentViewport components.
- * @returns A React component rendering the top bar actions.
+ * Provides a toolbar with actions for viewport resizing, and importing/exporting page data as JSON.
  */
 const TopBar: React.FC<TopBarProps> = ({ pageRendererRef, contentViewportRef }) => {
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
     /**
-     * Updates the ContentViewport dimensions.
+     * Exports the page data as a JSON file.
+     */
+    const handleExport = () => {
+        pageRendererRef.current?.exportPageData();
+    };
+
+    /**
+     * Triggers the file input to import JSON.
+     */
+    const handleImport = () => {
+        fileInputRef.current?.click();
+    };
+
+    /**
+     * Handles the file input change event to import JSON data.
+     *
+     * @param e - The file input change event.
+     */
+    const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            pageRendererRef.current?.importPageData(file);
+        }
+        // Reset the file input value to allow re-selection of the same file
+        if (fileInputRef.current) fileInputRef.current.value = "";
+    };
+
+    /**
+     * Updates the dimensions of the ContentViewport.
+     *
      * @param width - The new width for the viewport.
      * @param height - The new height for the viewport.
      */
@@ -40,6 +68,15 @@ const TopBar: React.FC<TopBarProps> = ({ pageRendererRef, contentViewportRef }) 
                 <button onClick={() => setViewportDimensions(1200, 800)}>Desktop</button>
                 <button onClick={() => setViewportDimensions(768, 1024)}>Tablet</button>
                 <button onClick={() => setViewportDimensions(375, 667)}>Mobile</button>
+                <button onClick={handleExport}>Export JSON</button>
+                <button onClick={handleImport}>Import JSON</button>
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="application/json"
+                    style={{ display: "none" }}
+                    onChange={onFileSelected}
+                />
             </div>
         </div>
     );

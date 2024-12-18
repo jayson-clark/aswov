@@ -94,6 +94,40 @@ class PageRenderer extends Component<PageRendererProps, PageRendererState> {
         this.setState({ pageData: newPageData });
     };
 
+    /**
+     * Exports the current page data as a JSON file.
+     */
+    exportPageData = () => {
+        const { pageData } = this.state;
+        const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(
+            JSON.stringify(pageData, null, 2)
+        )}`;
+        const downloadAnchor = document.createElement("a");
+        downloadAnchor.href = dataStr;
+        downloadAnchor.download = "pageData.json";
+        downloadAnchor.click();
+    };
+
+    /**
+     * Imports page data from a JSON file.
+     * @param file - The JSON file to import.
+     */
+    importPageData = (file: File) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (e.target?.result) {
+                try {
+                    const data = JSON.parse(e.target.result as string) as PageData;
+                    this.setData(data);
+                } catch (err) {
+                    console.error("Error parsing JSON file:", err);
+                }
+            }
+        };
+        reader.readAsText(file);
+    };
+
+
     render() {
         const { loading, error, pageData } = this.state;
 
