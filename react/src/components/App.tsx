@@ -1,19 +1,32 @@
-import React from 'react';
-import PageRenderer from './content/PageRenderer';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import PageRenderer from "./content/PageRenderer";
+import EditorApp from "./editor/EditorApp";
 
 /**
  * App Component
  *
- * Root component of the application that renders the PageRenderer
- * for a specific collection and document.
+ * Main application component that sets up routing for the home page
+ * and editor page.
  *
- * @returns The main React component rendering dynamic page content.
+ * @returns A React component with routing for PageRenderer and EditorApp.
  */
-const App: React.FC = () => (
-    <div>
-        {/* Render the home page from the "pages" collection */}
-        <PageRenderer collection="pages" document="home" />
-    </div>
-);
+const App: React.FC = () => {
+    return (
+        <Router>
+            <Routes>
+                {/* Home Route */}
+                <Route
+                    path="/"
+                    element={
+                        <PageRenderer collection="pages" document="home" />
+                    }
+                />
+                {/* Editor Route */}
+                <Route path="/edit" element={<EditorApp />} />
+            </Routes>
+        </Router>
+    );
+};
 
 export default App;

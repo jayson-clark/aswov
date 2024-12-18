@@ -1,89 +1,124 @@
-import React, { useState, useEffect } from 'react';
-import { Element, renderElement } from './ElementRenderer';
-import { getDocumentAsJSON } from '../../firebase';
+import React, { Component } from "react";
+import { PageData } from "../../types/PageData";
+import { renderElement } from "./ElementRenderer";
+import { getDocumentAsJSON } from "../../firebase";
+import { ElementData } from "../../types/ElementData";
 
-/**
- * Interface representing the structure of page data.
- */
-interface PageData {
-    /** Array of elements to render on the page. */
-    elements: Element[]; // Element includes properties like `id`, `parentId`, etc.
+interface PageRendererState {
+    /** Indicates whether the page data is being loaded. */
+    loading: boolean;
+    /** Indicates if there was an error fetching the data. */
+    error: boolean;
+    /** Holds the page data with its elements. */
+    pageData: PageData;
 }
 
-/**
- * Props for the PageRenderer component.
- */
 interface PageRendererProps {
-    /** Firestore collection name. */
+    /** The Firestore collection name. */
     collection: string;
-    /** Firestore document name. */
+    /** The Firestore document name. */
     document: string;
 }
 
 /**
  * PageRenderer Component
- * 
- * Fetches and renders a dynamic page structure from Firestore.
  *
- * @param {string} collection - The Firestore collection name.
- * @param {string} document - The specific document to fetch.
- * @returns A React component rendering the page content.
+ * A class-based component to fetch, manage, and render page data dynamically.
  */
-const PageRenderer: React.FC<PageRendererProps> = ({ collection, document }) => {
-    const [pageData, setPageData] = useState<PageData | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+class PageRenderer extends Component<PageRendererProps, PageRendererState> {
+    constructor(props: PageRendererProps) {
+        super(props);
 
-    /**
-     * Fetch page data from Firestore on component mount or when props change.
-     */
-    useEffect(() => {
-        const fetchPageData = async () => {
-            try {
-                setLoading(true); // Set loading state
-                const data = await getDocumentAsJSON<PageData>(collection, document);
-
-                if (data?.elements) {
-                    setPageData(data);
-                } else {
-                    throw new Error('Page not found or invalid structure');
-                }
-            } catch (err: any) {
-                setError(err.message || 'An unknown error occurred'); // Handle errors
-            } finally {
-                setLoading(false); // Remove loading state
-            }
+        // Initialize state
+        this.state = {
+            pageData: { elements: [] },
+            loading: false,
+            error: false,
         };
-
-        fetchPageData();
-    }, [collection, document]);
-
-    // Loading state
-    if (loading) return <div>Loading...</div>;
-    // Error state
-    if (error) return <div>Error: {error}</div>;
-    // No content state
-    if (!pageData?.elements) return <div>No content available</div>;
+    }
 
     /**
-     * Create a lookup map for elements by their ID for easy access.
+     * Fetch page data when the component mounts.
      */
-    const elementsById: Record<string, Element> = Object.fromEntries(
-        pageData.elements.map((el) => [el.id, el])
-    );
+    async componentDidMount() {
+        try {
+            this.setState({ loading: true, error: false });
+
+            const data = await getDocumentAsJSON<PageData>(this.props.collection, this.props.document);
+            if (data?.elements) {
+                this.setData(data);
+            } else {
+                throw new Error("Page not found or invalid structure");
+            }
+        } catch (err) {
+            console.error("Error fetching page data:", err);
+            this.setState({ error: true });
+        } finally {
+            this.setState({ loading: false });
+        }
+    }
 
     /**
-     * Find top-level elements (elements without a `parentId`).
+     * Adds a new element to the page.
+     * @param newElement - The new element to add.
      */
-    const topLevelElements = pageData.elements.filter((el) => !el.parentId);
+    addElement = (newElement: ElementData) => {
+        this.setState((prevState) => ({
+            pageData: {
+                ...prevState.pageData,
+                elements: [...prevState.pageData.elements, newElement],
+            },
+        }));
+    };
 
-    return (
-        <div className="page-container">
-            {topLevelElements.map((element) =>
-                renderElement(element, elementsById) // Render each top-level element
-            )}
-        </div>
-    );
-};
+    /**
+     * Updates an existing element in the page data.
+     * @param updatedElement - The updated element to replace the old one.
+     */
+    updateElement = (updatedElement: ElementData) => {
+        this.setState((prevState) => ({
+            pageData: {
+                ...prevState.pageData,
+                elements: prevState.pageData.elements.map((el) =>
+                    el.id === updatedElement.id ? updatedElement : el
+                ),
+            },
+        }));
+    };
+
+    /**
+     * Sets new page data.
+     * @param newPageData - The new page data to replace the current data.
+     */
+    setData = (newPageData: PageData) => {
+        this.setState({ pageData: newPageData });
+    };
+
+    render() {
+        const { loading, error, pageData } = this.state;
+
+        // Loading state
+        if (loading) return <div>Loading...</div>;
+
+        // Error state
+        if (error) return <div>Error loading page data.</div>;
+
+        // Create a map of elements by their ID
+        const elementsById: Record<string, ElementData> = Object.fromEntries(
+            pageData.elements.map((el) => [el.id, el])
+        );
+
+        // Filter top-level elements (elements without a parentId)
+        const topLevelElements = pageData.elements.filter((el) => !el.parentId);
+
+        return (
+            <div className="page-container">
+                {topLevelElements.map((element) =>
+                    renderElement(element, elementsById)
+                )}
+            </div>
+        );
+    }
+}
 
 export default PageRenderer;
