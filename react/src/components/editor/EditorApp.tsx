@@ -14,10 +14,6 @@ import "./EditorApp.css";
  * @returns The main editor application component.
  */
 const EditorApp: React.FC = () => {
-    // State for the viewport dimensions
-    const [viewportWidth, setViewportWidth] = useState(800);
-    const [viewportHeight, setViewportHeight] = useState(600);
-
     // Refs for child components
     const pageRendererRef = createRef<PageRenderer>();
     const contentViewportRef = createRef<ContentViewport>();
